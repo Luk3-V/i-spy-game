@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { formatTime } from '../util';
 
-const toMMSS = (num) => {
-    var sec_num = parseInt(num, 10); // don't forget the second param
-    var minutes = Math.floor(sec_num / 60);
-    var seconds = sec_num - (minutes * 60);
+const TimeDiv = styled.div`
+    display: flex;
+    align-items: center;
+    img {
+        width: 2rem;
+        margin-right: 5px;
+    }
+`;
 
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return minutes+':'+seconds;
-}
-
-function Timer({ isGameOver }) {
-    const [timer, setTimer] = useState(0);
+const Timer = ({ isGamePlaying, timer, setTimer }) => {
 
     useEffect(() => {
         let interval;
-        if (!isGameOver) {
+        if (isGamePlaying) {
             // start interval/timer
             interval = setInterval(() => {
             setTimer((timer) => timer + 1);
-            }, 1000);
-        } else if (isGameOver) {
-            // stops/resets timer
+            }, 100);
+        } else {
+            // stops timer
+            console.log('done');
             clearInterval(interval);
-            setTimer(0);
         }
 
         // when component unmounts stops timer / clearInterval
         return () => {
             clearInterval(interval);
         };
-    }, [isGameOver]);
+    }, [isGamePlaying, setTimer]);
 
     return (
-      <span>{toMMSS(timer)}</span>
+        <TimeDiv>
+            <img src={require('../assets/time-48.png')} alt="" />
+            <span>{formatTime(timer)}</span>
+        </TimeDiv>
     );
   }
   

@@ -4,27 +4,29 @@ import Timer from "./Timer";
 
 const NavDiv = styled.div`
     width: 100%;
-    height: 80px;
+    height: 4rem;
     display: flex;
     z-index: 2;
     position: fixed;
     background-color: #111;
-    font-size: 2rem;
+    font-size: 1.7rem;
     justify-content: space-between;
     padding: 0 20px;
     align-items: center;
 `;
 
-const Logo = styled.span`
+const Logo = styled.img`
     position: absolute;
     left: 50%;
+    height: 3rem;
+    transform: translateX(-50%);
 `;
 
-function NavBar({ items }) {
+function NavBar({ items, isGamePlaying, timer, setTimer }) {
     return (
         <NavDiv>
-            <Timer isGameOver={false}/>
-            <Logo>I Spy</Logo>
+            <Timer isGamePlaying={isGamePlaying} timer={timer} setTimer={setTimer}/>
+            <Logo src={require('../assets/logo.png')}></Logo>
             <ItemList items={items}/>
         </NavDiv>
     );

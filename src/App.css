@@ -7,6 +7,7 @@
 body {
     background-color: #111;
     color: whitesmoke;
+    font-family: 'Helvetica';
 }
 
 .container {
@@ -18,7 +19,7 @@ body {
     min-width: 100%; 
     display: block;
     position: absolute;
-    top: 80px;
+    top: 4rem;
     left: 0;
 }
 
