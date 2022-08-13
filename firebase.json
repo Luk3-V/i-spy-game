@@ -1,0 +1,10 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "site": "luk3v-i-spy-game",
+    "public": "build"
+  }
+}

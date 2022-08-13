@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #111;
+    color: whitesmoke;
+}
+
+.container {
+    
+}
+
+.image {
+    max-height: 125%;
+    min-width: 100%; 
+    display: block;
+    position: absolute;
+    top: 80px;
+    left: 0;
+}
+
