@@ -22,6 +22,7 @@ const ModalDiv = styled.div`
     }
     p, label {
         font-size: 1.2rem; 
+        margin-top: 10px;
     }
     form {
         input {
@@ -35,6 +36,29 @@ const ModalDiv = styled.div`
         }
         input:-webkit-autofill, input:-webkit-autofill:focus { /* Prevent autofill styling */
             transition: background-color 600000s 0s, color 600000s 0s;
+        }
+    }
+    .table-container {
+        min-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        thead tr {
+            position: sticky;
+            top: 0;
+        }
+        td, th {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(odd) {
+            background-color: #222;
+        }
+        thead tr {
+            background-color: #111!important;;
         }
     }
     .btn-container {
@@ -54,20 +78,22 @@ const ModalDiv = styled.div`
     button:hover {
         background-color: #444;
     }
-    button:last-child {
+    button.green-btn {
         background-color: green;
     }
-    button:last-child:hover {
+    button.green-btn:hover {
         background-color: #00a000;
     }
 `;
 
-const Modal = ({ isGameOver, timer, startGame, submitScore }) => {
+const Modal = ({ showGameOver, showScoreboard, timer, scores, startGame, submitScore }) => {
+
     const gameStart = (<ModalDiv>
         <h1>I Spy...</h1>
-        <p>A Dog, a Cat, and a Rat. </p>
+        <p>A Dog, a Cat, and a Rat.</p>
+        <p>How fast can you find them?</p>
         <div className="btn-container">
-            <button onClick={startGame}>START GAME</button>
+            <button onClick={startGame} className='green-btn'>START GAME</button>
         </div>
     </ModalDiv>);
 
@@ -77,15 +103,40 @@ const Modal = ({ isGameOver, timer, startGame, submitScore }) => {
             <label htmlFor="name">Enter your name:</label>
             <input type='text' id="name" name="name"></input>
             <div className="btn-container">
-                <button onClick={() => {}}>RESTART</button>
-                <button onClick={submitScore}>SUBMIT SCORE</button>
+                <button onClick={() => {window.location.reload()}}>RESTART</button>
+                <button onClick={submitScore} className='green-btn'>SUBMIT SCORE</button>
             </div>
         </form>
     </ModalDiv>);
 
+    const scoreboard = (<ModalDiv>
+        <h1>Scoreboard</h1>
+        <div className="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Place</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {scores.map((score, i) => <tr key={i}>
+                        <td>{i+1}</td>
+                        <td>{score.name}</td>
+                        <td>{formatTime(score.time)}</td>
+                    </tr>)}
+                </tbody>
+            </table>
+        </div>
+        <div className="btn-container">
+            <button onClick={() => {window.location.reload()}}>RESTART</button>
+        </div>
+    </ModalDiv>);
+
     return (
         <ModalWrapper> 
-            { isGameOver ? gameOver : gameStart }
+            { showGameOver ? gameOver : (showScoreboard ? scoreboard : gameStart) }
         </ModalWrapper>
     );
 }

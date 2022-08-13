@@ -1,7 +1,7 @@
 import './App.css';
 
 import {initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { useEffect, useState } from 'react';
@@ -34,8 +34,10 @@ const App = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [clickPos, setClickPos] = useState({ x: 0, y: 0 });
   const [isGamePlaying, setIsGamePlaying] = useState(false);
-  const [isGameOver, setIsGameOver] = useState(false);
+  const [showGameOver, setShowGameOver] = useState(false);
+  const [showScoreboard, setShowScoreboard] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [scores, setScores] = useState([]);
   
   useEffect(() => {
     const closeMenu = (e) => {
@@ -50,7 +52,6 @@ const App = () => {
   }, [showMenu, clickPos]);
 
   const checkItemPos = async (name, x, y) => {
-    console.log(name, x, y);
     const ref = collection(db, 'items');
     const snapshot = await getDocs(ref);
     const itemsData = snapshot.docs.map(doc => doc.data());
@@ -64,7 +65,7 @@ const App = () => {
 
     if(items.filter(x => !x.isFound).length === 0){
       setIsGamePlaying(false);
-      setIsGameOver(true);
+      setShowGameOver(true);
     }  
   };
 
@@ -72,9 +73,23 @@ const App = () => {
     setIsGamePlaying(true);
   }
 
-  const submitScore = (e) => {
+  const submitScore = async (e) => {
     e.preventDefault();
-    console.log(e);
+    const ref = collection(db, 'scoreboard');
+    addDoc(ref, {
+      name: e.target.form.name.value,
+      time: timer
+    });
+
+    setScores(await getScores());
+    setShowGameOver(false);
+    setShowScoreboard(true);
+  }
+  const getScores = async () => {
+    const ref = collection(db, 'scoreboard');
+    const snapshot = await getDocs(ref);
+    let scoresData = snapshot.docs.map(doc => doc.data());
+    return scoresData.sort((x1, x2) => x1.time - x2.time);
   }
 
   return (
@@ -82,25 +97,12 @@ const App = () => {
       <NavBar items={items} isGamePlaying={isGamePlaying} timer={timer} setTimer={setTimer}/>
       <img className='image' src={require("./assets/iSpy image.png")} alt="" style={{ position: (!isGamePlaying) ? 'fixed' : 'absolute'}}/>
       {showMenu && <ContextMenu items={items} x={clickPos.x} y={clickPos.y} checkItemPos={checkItemPos}/>}
-      {(!isGamePlaying) && <Modal isGameOver={isGameOver} timer={timer} startGame={startGame} submitScore={submitScore}/>}
+      {(!isGamePlaying) && <Modal showGameOver={showGameOver} showScoreboard={showScoreboard} timer={timer} scores={scores} startGame={startGame} submitScore={submitScore}/>}
     </div>
   );
 }
 export default App;
 
-// DONE:
-// Display image & timer at top
-// Display items
-// Click event 
-// click list popup menu
-// DB w/ locations
-// check pos w/ DB if correct
-// update items if found
-// win screen w/ restart
-// highscore DB
-// start screen
-
 // TODO:
 // drag to move
-// highscore screen
 // info tab instead of item list

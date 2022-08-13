@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { formatTime } from '../util';
 
@@ -12,7 +12,7 @@ const TimeDiv = styled.div`
 `;
 
 const Timer = ({ isGamePlaying, timer, setTimer }) => {
-
+    
     useEffect(() => {
         let interval;
         if (isGamePlaying) {
@@ -22,7 +22,6 @@ const Timer = ({ isGamePlaying, timer, setTimer }) => {
             }, 100);
         } else {
             // stops timer
-            console.log('done');
             clearInterval(interval);
         }
 
