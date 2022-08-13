@@ -39,7 +39,7 @@ const MenuDiv = styled.div`
     } 
 `;
 
-export const ContextMenu = ({ items, x, y, checkItemPos }) => {
+const ContextMenu = ({ items, x, y, checkItemPos }) => {
     return (
         <MenuDiv style={{ left: x+'px', top: (y + 80)+'px' }}>
             <ul>
@@ -52,3 +52,4 @@ export const ContextMenu = ({ items, x, y, checkItemPos }) => {
         
     );
 }
+export default ContextMenu;
