@@ -9,6 +9,7 @@ const ListDiv = styled.div`
     }
     span img {
         margin-right: 5px;
+        width: 2rem;
     }
     span.found {
         filter: brightness(50%);
