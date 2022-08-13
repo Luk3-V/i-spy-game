@@ -6,3 +6,13 @@ export const formatTime = (num) => {
     if (seconds < 10) {seconds = "0"+seconds;}
     return seconds+'.'+decimal;
 }
+
+export const getPageWidth = () => {
+    return Math.max(
+      document.body.scrollWidth,
+      document.documentElement.scrollWidth,
+      document.body.offsetWidth,
+      document.documentElement.offsetWidth,
+      document.documentElement.clientWidth
+    );
+  }

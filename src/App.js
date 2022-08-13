@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import NavBar from './components/NavBar';
 import ContextMenu from './components/ContextMenu';
 import Modal from './components/Modal';
+import { getPageWidth } from './util';
 
 const app = initializeApp({
   apiKey: "AIzaSyCfoqLb68UtJdXvHJeopFssSdVDLz32Viw",
@@ -42,7 +43,7 @@ const App = () => {
   useEffect(() => {
     const closeMenu = (e) => {
       if(e.target.className === 'image'){
-        setClickPos({ x: e.pageX, y: e.pageY - e.target.offsetTop })
+        setClickPos({ x: e.pageX, y: (e.pageY - e.target.offsetTop) })
         setShowMenu(true);
       } else
         setShowMenu(false);
@@ -52,10 +53,14 @@ const App = () => {
   }, [showMenu, clickPos]);
 
   const checkItemPos = async (name, x, y) => {
+    
+    const image = document.querySelector('.image');
     const ref = collection(db, 'items');
     const snapshot = await getDocs(ref);
     const itemsData = snapshot.docs.map(doc => doc.data());
     const item = itemsData.find(x => x.name === name);
+    x = Math.round(((x - ((getPageWidth() - image.width)/2))/image.width)*10000)/10000 ;
+    y = Math.round((y/image.height)*10000)/10000;
     
     if(item.x1 < x && item.y1 < y && item.x2 > x && item.y2 > y){
       let itemsCopy = [...items];
@@ -103,6 +108,6 @@ const App = () => {
 }
 export default App;
 
-// TODO:
+// TODO:npm
 // drag to move
 // info tab instead of item list
