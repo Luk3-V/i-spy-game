@@ -43,7 +43,7 @@ const App = () => {
   useEffect(() => {
     const closeMenu = (e) => {
       if(e.target.className === 'image'){
-        setClickPos({ x: e.pageX, y: (e.pageY - e.target.offsetTop) })
+        setClickPos({ x: e.pageX, y: e.pageY })
         setShowMenu(true);
       } else
         setShowMenu(false);
@@ -60,7 +60,7 @@ const App = () => {
     const itemsData = snapshot.docs.map(doc => doc.data());
     const item = itemsData.find(x => x.name === name);
     x = Math.round(((x - ((getPageWidth() - image.width)/2))/image.width)*10000)/10000 ;
-    y = Math.round((y/image.height)*10000)/10000;
+    y = Math.round(((y - image.offsetTop)/image.height)*10000)/10000;
     
     if(item.x1 < x && item.y1 < y && item.x2 > x && item.y2 > y){
       let itemsCopy = [...items];
@@ -100,7 +100,7 @@ const App = () => {
   return (
     <div className='container'>
       <NavBar items={items} isGamePlaying={isGamePlaying} timer={timer} setTimer={setTimer}/>
-      <img className='image' src={require("./assets/iSpy image.png")} alt="" style={{ position: (!isGamePlaying) ? 'fixed' : 'absolute'}}/>
+      <img className='image' src={require("./assets/ispy-image.webp")} alt="" style={{ position: (!isGamePlaying) ? 'fixed' : 'absolute'}}/>
       {showMenu && <ContextMenu items={items} x={clickPos.x} y={clickPos.y} checkItemPos={checkItemPos}/>}
       {(!isGamePlaying) && <Modal showGameOver={showGameOver} showScoreboard={showScoreboard} timer={timer} scores={scores} startGame={startGame} submitScore={submitScore}/>}
     </div>

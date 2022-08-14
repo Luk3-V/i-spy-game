@@ -8,11 +8,14 @@ const TimeDiv = styled.div`
     img {
         width: 2rem;
         margin-right: 5px;
+        @media (max-width: 768px) {
+            width: 1.5rem;
+        }
     }
 `;
 
 const Timer = ({ isGamePlaying, timer, setTimer }) => {
-    
+
     useEffect(() => {
         let interval;
         if (isGamePlaying) {

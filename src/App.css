@@ -25,3 +25,9 @@ body {
     margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+    .image {
+        height: calc(100% - 3rem);
+        top: 3rem;
+    }
+}

@@ -41,7 +41,7 @@ const MenuDiv = styled.div`
 
 const ContextMenu = ({ items, x, y, checkItemPos }) => {
     return (
-        <MenuDiv style={{ left: x+'px', top: (y + 80)+'px' }}>
+        <MenuDiv style={{ left: x+'px', top: y+'px' }}>
             <ul>
                 {items.map((item, i) => <li key={i} onClick={() => checkItemPos(item.name, x, y)} className={item.isFound ? 'found' : ''}>
                     <img src={require(`../assets/${item.name}-24.png`)} alt="" />

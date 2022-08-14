@@ -3,13 +3,19 @@ import styled from "styled-components";
 const ListDiv = styled.div`
     display: flex;
     span {
-        margin-left: 30px;
         display: flex;
         align-items: center;
+        margin-left: 20px;
+        @media (max-width: 768px) {
+            margin-left: 10px;
+        }
     }
     span img {
         margin-right: 5px;
         width: 2rem;
+        @media (max-width: 768px) {
+            width: 1.5rem;
+        }
     }
     span.found {
         filter: brightness(50%);
@@ -22,7 +28,6 @@ function ItemList({ items }) {
         <ListDiv>
             {items.map((item, i) => <span key={i} className={item.isFound ? 'found' : ''}>
                 <img src={require(`../assets/${item.name}-48.png`)} alt="" />
-                {item.name}
             </span>)}
         </ListDiv>
     );
